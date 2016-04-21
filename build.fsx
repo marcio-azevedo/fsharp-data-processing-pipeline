@@ -408,4 +408,4 @@ Target "All" DoNothing
   ==> "PublishNuget"
   ==> "Release"
 
-RunTargetOrDefault "All"
+RunTargetOrDefault "RunTests" //"All"
