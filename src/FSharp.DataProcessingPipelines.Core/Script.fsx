@@ -20,20 +20,18 @@ messages <- (testMessage::messages)
 // OutputPipe type example
 type ServiceAOutputPipe () = 
     inherit IOutputPipe<EventInformationMessage> ()  
-    override this.Push m = 
+    override this.Publish (m) = 
         messages <- (List.append messages [m])
-        ()
 
 // InputPIpe type example
 type ServiceBInputPipe () = 
     inherit IInputPipe<EventInformationMessage> () 
-    override this.SetHandler a = ()
-    override this.Pull () = 
+    override this.Subscribe (handler:(EventInformationMessage -> unit)) = 
         match messages with 
-        | [] -> new EventInformationMessage("", "")
+        | [] -> printfn "Messages is empty"
         | h::t ->
             messages <- t
-            h
+            handler h
 
 let outputPipe = new ServiceAOutputPipe()
 let inputPipe = new ServiceBInputPipe()
@@ -44,7 +42,8 @@ type ServiceAFilter (pipe:ServiceAOutputPipe) =
         try
             try
                 let msg = EventInformationMessage("This is a new test Message!", "This is the context of the new Test Message!")
-                this.OutputPipe.Push msg
+                printfn "Publish msg to output pipe at Service A: %A" (msg.ToString())
+                this.OutputPipe.Publish msg
             finally
                 // Dispose if needed
                 ()
@@ -56,8 +55,8 @@ type ServiceAFilter (pipe:ServiceAOutputPipe) =
 type ServiceBFilter (pipe:ServiceBInputPipe) =
     inherit DataSink<EventInformationMessage>(pipe)
     override this.Execute () = 
-        let msg = (this.InputPipe.Pull ())
-        printfn "%A" (msg)
+        let handler (msg) = printfn "Service B Execute -> %A" (msg)
+        this.InputPipe.Subscribe (handler)
 
 let myRunnerA = BaseRunner (ServiceAFilter (outputPipe))
 let myRunnerB = BaseRunner (ServiceBFilter (inputPipe))

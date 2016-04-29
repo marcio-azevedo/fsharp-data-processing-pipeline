@@ -14,7 +14,7 @@ open Microsoft.ServiceBus.Messaging
 open FSharp.DataProcessingPipelines.Azure.ServiceBus
 
 [<Literal>]
-let ServiceBusConnectionString = "Endpoint=sb://cfn-pipeline.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ddygS+p2VDMlFPsrGuYOp20dOSiPknLZVgwkI5eLmoY="
+let ServiceBusConnectionString = "host=localhost" //TODO: set an existing Azure host!
 
 // A DTO
 type SampleMessage = { Id : string; Name : string }

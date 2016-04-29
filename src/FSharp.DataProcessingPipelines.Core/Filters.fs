@@ -45,7 +45,8 @@ module Filters =
         /// Output Pipe
         member this.InputPipe = input
 
-//    type AFilter<'T, 'V> = 
-//        | Filter of Filter<'T,'V>
-//        | DataSource of DataSource<'V>
-//        | DataSink of DataSink<'T>
+//    match (filter:IFilter<'T, 'V>) = 
+//        | Filter :> Filter<'T,'V> ->
+//        | DataSource :> DataSource<'V> -> 
+//        | DataSink :> DataSink<'T> - >
+//        | _ -> 

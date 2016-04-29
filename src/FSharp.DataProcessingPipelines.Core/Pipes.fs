@@ -7,11 +7,9 @@ module Pipes =
     [<AbstractClass>]
     type IInputPipe<'T> () = 
 
-        abstract member SetHandler: Action -> unit
-
-        abstract member Pull: unit -> 'T
+        abstract member Subscribe: ('T -> unit) -> unit
 
     [<AbstractClass>]
     type IOutputPipe<'T> () = 
 
-        abstract member Push: 'T -> unit
+        abstract member Publish: 'T -> unit
