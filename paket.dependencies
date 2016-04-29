@@ -1,5 +1,6 @@
 source https://api.nuget.org/v3/index.json
 nuget EasyNetQ
+nuget RabbitMQ.Client
 nuget WindowsAzure.ServiceBus
 
 group Build
