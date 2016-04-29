@@ -55,7 +55,6 @@
     <Content Include="web.config.install.xdt">
       <Paket>True</Paket>
     </Content>
-    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Script.fsx" />
     <Compile Include="AzureServiceBus.fs" />
     <None Include="paket.references" />
