@@ -6,9 +6,17 @@
 #r @"bin/Debug/FSharp.DataProcessingPipelines.Core.dll"
 #load "RabbitMQModule.fs"
 
+//@"C:\cfn\Celfinet.Spikes\Hands-on-Lab\3-ServiceBusArchitecture\src\Cfn.HOL.ServiceBusArchitecture.Exercise4.Final\FSharp.Test\"
+//#r @"bin/Debug/Cfn.Engine.Pipeline.Extensibility.dll"
+//#r @"bin/Debug/Cfn.Engine.ServiceBus.RabbitMQ.dll"
+//#r @"C:/cfn/Celfinet.Spikes/Hands-on-Lab/3-ServiceBusArchitecture/src/Cfn.HOL.ServiceBusArchitecture.Exercise4.Final/Cfn.HOL.ServiceBusArchitecture.Pipeline/bin/Debug/Cfn.HOL.ServiceBusArchitecture.Pipeline.dll"
+//#r @"C:/cfn/Celfinet.Spikes/Hands-on-Lab/3-ServiceBusArchitecture/src/Cfn.HOL.ServiceBusArchitecture.Exercise4.Final/Cfn.HOL.ServiceBusArchitecture.Filters/bin/Debug/Cfn.HOL.ServiceBusArchitecture.Filters.dll"
+//#r @"C:\cfn\Celfinet.Spikes\Hands-on-Lab\3-ServiceBusArchitecture\src\Cfn.HOL.ServiceBusArchitecture.Exercise4.Final\Cfn.HOL.Configuration\bin\Debug\Cfn.HOL.ConfigurationGateway.dll"
+
 //namespace Cfn.HOL.ServiceBusArchitecture.Pipeline.Messages
 
 open System
+open System.Collections.Generic
 open System.Globalization
 open System.Threading
 open RabbitMQ.Client
@@ -18,7 +26,7 @@ open FSharp.DataProcessingPipelines.Core.Messages
 open FSharp.DataProcessingPipelines.Core.Pipes
 open FSharp.DataProcessingPipelines.Core.Filters
 open FSharp.DataProcessingPipelines.Core.Runners
-open FSharp.DataProcessingPipelines.RabbitMQ.Infrastructure
+open FSharp.DataProcessingPipelines.Infrastructure.RabbitMQ
 
 type BaseMessage (id:int, events:(DateTime * String) list) = 
     member this.Id = id
@@ -27,10 +35,6 @@ type BaseMessage (id:int, events:(DateTime * String) list) =
 type ServiceBInputPipe
     (serviceBus:IBus, subscriberId:String, topic:String, locale:String) = 
     inherit RabbitMQInputPipe<BaseMessage> (serviceBus, subscriberId, topic, locale)
-    let mutable msg = new BaseMessage(0, [])
-    override this.Message
-        with get() = msg
-        and set(value) = msg <- value
 
 type ServiceAOutputPipe
     (serviceBus:IBus, topic:String) = 
@@ -42,7 +46,8 @@ type ServiceAFilter (pipe:ServiceAOutputPipe) =
         try
             try
                 let msg = BaseMessage(1, [(DateTime.Now, "Test Message created in F# by the ServiceAFilter!")])
-                this.OutputPipe.Push msg
+                printfn "--- Service A Publishes Msg ---"
+                this.OutputPipe.Publish msg
             finally
                 // Dispose if needed
                 ()
@@ -54,23 +59,14 @@ type ServiceAFilter (pipe:ServiceAOutputPipe) =
 type ServiceBFilter (pipe:ServiceBInputPipe) =
     inherit DataSink<BaseMessage>(pipe)
     override this.Execute () = 
-        let msg = (this.InputPipe.Pull ())
-        this.PrintsMessage msg
+        let handler (msg:BaseMessage) = 
+            printfn "--- Service B Execute -> %d: " (msg.Id)
+            for i in msg.Events do
+                printfn "(%A, %s)" (fst i) (snd i)
+            printfn "-----------------------------------------"
+        this.InputPipe.Subscribe (handler)
 
-    member this.PrintsMessage (baseMsg:BaseMessage) = 
-        printfn "--- Printing output in ServiceBFilter ---"
-        match baseMsg.Events with
-        | [] -> printfn "---"
-        | l -> 
-            for msg in baseMsg.Events do
-                let (d,s) = msg
-                printfn "%d %A %s" (baseMsg.Id) d s
-
-// https://api.cloudamqp.com/sso/4e7ff84d-254c-4006-be58-19d039505b04/details
-// https://www.rabbitmq.com/tutorials/amqp-concepts.html
-// https://github.com/EasyNetQ/EasyNetQ/wiki/Connecting-to-RabbitMQ
-
-let ServiceBusHost = "host=chicken.rmq.cloudamqp.com;virtualHost=dwtdlpzl;username=dwtdlpzl;password=x2x5-wlGHC2XfhzDFCgoHWbIlPdeAEK_;timeout=0"
+let ServiceBusHost = "host=localhost" //TODO: set an existing RabbitMQ host!
 let Culture = "en-US"
 
 let ServiceASubscriberId = "ServiceASubscriberId"
@@ -90,12 +86,8 @@ let serviceBus =
             printfn "%A %A" (ex.Message) (innerException)
             raise ex
 
-for i in 1..100 do 
-    let message = new BaseMessage(i,[(DateTime.Now, "Exercise5 Test Started!")])
-    serviceBus.Publish<BaseMessage>(message, ServiceAInputPipeTopic)
-
 let outputPipe = new ServiceAOutputPipe(serviceBus, ServiceAInputPipeTopic)
-let inputPipe = new ServiceBInputPipe(serviceBus, ServiceASubscriberId, ServiceBInputPipeTopic, Culture)
+let inputPipe = new ServiceBInputPipe(serviceBus, ServiceBSubscriberId, ServiceAInputPipeTopic, Culture)
 
 let myRunnerA = BaseRunner (ServiceAFilter (outputPipe))
 let myRunnerB = BaseRunner (ServiceBFilter (inputPipe))

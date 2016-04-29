@@ -1,20 +1,15 @@
-﻿namespace FSharp.DataProcessingPipelines.RabbitMQ
+﻿namespace FSharp.DataProcessingPipelines.Infrastructure
 
 open System
 open System.Globalization
 open System.Threading
-open RabbitMQ.Client
 open EasyNetQ
 open FSharp.DataProcessingPipelines.Core
-open FSharp.DataProcessingPipelines.Core.Messages
 open FSharp.DataProcessingPipelines.Core.Pipes
-open FSharp.DataProcessingPipelines.Core.Filters
-open FSharp.DataProcessingPipelines.Core.Runners
 
-module Infrastructure =
+module RabbitMQ =
 
     /// OutputPipe type implementation for RabbitMQ
-    [<AbstractClass>]
     type RabbitMQOutputPipe<'T when 'T : not struct> (serviceBus:IBus, topic:String) = 
 
         inherit IOutputPipe<'T> ()
@@ -22,40 +17,32 @@ module Infrastructure =
         let Bus = serviceBus
         let Topic = topic
 
-        override this.Push m = 
-            Bus.Publish<'T>(m, Topic)
+        override this.Publish m = 
+            try
+                Bus.Publish<'T>(m, Topic)
+            with
+                | ex -> 
+                    // log exception
+                    reraise()
 
     /// InputPipe type implementation for RabbitMQ
-    [<AbstractClass>]
     type RabbitMQInputPipe<'T when 'T : not struct> 
         (serviceBus:IBus, subscriberId:String, topic:String, locale:String) = 
 
         inherit IInputPipe<'T> ()
 
-        let IsDisposed = false
-        let mutable Handler = new Action((fun () -> ()))
         let Bus = serviceBus
         let SubscriberId = subscriberId
         let Topic = topic
         let Locale = locale
 
-        abstract member Message : ('T) with get, set
-
-        member this.HandleMessage (nextMessage:'T) =
-            Thread.CurrentThread.CurrentCulture <- new CultureInfo(locale)
-            this.Message <- nextMessage
-            Handler
-
-        override this.SetHandler (messageHandler) = 
-            Handler <- messageHandler
-            Bus.Subscribe<'T>(
-                SubscriberId, 
-                (fun m -> 
-                    (this.HandleMessage m)
-                    |> ignore), 
-                (fun x -> 
-                    x.WithTopic(topic)
-                    |> ignore))
-            |> ignore
-
-        override this.Pull () = this.Message
+        override this.Subscribe (handler:('T -> unit)) = 
+            let InternalHandler (message:'T) = 
+                Thread.CurrentThread.CurrentCulture <- new CultureInfo(Locale)
+                handler message
+            try
+                Bus.Subscribe<'T>(SubscriberId, (fun m -> InternalHandler m), (fun x -> x.WithTopic(Topic) |> ignore)) |> ignore
+            with
+            | ex -> 
+                // log exception
+                reraise()
