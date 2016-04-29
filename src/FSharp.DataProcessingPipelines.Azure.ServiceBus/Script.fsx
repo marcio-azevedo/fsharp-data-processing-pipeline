@@ -11,29 +11,29 @@ open System
 open System.Runtime.Serialization
 open Microsoft.ServiceBus
 open Microsoft.ServiceBus.Messaging
-open FSharp.DataProcessingPipelines.Azure.ServiceBus
+open FSharp.DataProcessingPipelines.Infrastructure.AzureServiceBus
 
 [<Literal>]
 let ServiceBusConnectionString = "host=localhost" //TODO: set an existing Azure host!
-
-// A DTO
-type SampleMessage = { Id : string; Name : string }
-
-let myQueue = AzureServiceBus.getQueue (ServiceBusConnectionString, "TestQueue")
-
-let currentClient = AzureServiceBus.getServiceBusclient (ServiceBusConnectionString, "TestQueue")
-
-let onMessageAction (message:BrokeredMessage) = 
-    printfn "%s" (message.SessionId)
-    ()
-
-// Configure the callback options.
-let options = new OnMessageOptions(AutoComplete = false, AutoRenewTimeout = (TimeSpan.FromMinutes(1.0)))
-
-// Callback to handle received messages.
-currentClient.OnMessage((fun (message) -> onMessageAction message), options)
-
-let testMessage = new BrokeredMessage()
-currentClient.Send(testMessage)
-
-// https://azure.microsoft.com/en-us/documentation/articles/service-bus-queues-topics-subscriptions/
+//
+//// A DTO
+//type SampleMessage = { Id : string; Name : string }
+//
+//let myQueue = AzureServiceBus.getQueue (ServiceBusConnectionString, "TestQueue")
+//
+//let currentClient = AzureServiceBus.getServiceBusclient (ServiceBusConnectionString, "TestQueue")
+//
+//let onMessageAction (message:BrokeredMessage) = 
+//    printfn "%s" (message.SessionId)
+//    ()
+//
+//// Configure the callback options.
+//let options = new OnMessageOptions(AutoComplete = false, AutoRenewTimeout = (TimeSpan.FromMinutes(1.0)))
+//
+//// Callback to handle received messages.
+//currentClient.OnMessage((fun (message) -> onMessageAction message), options)
+//
+//let testMessage = new BrokeredMessage()
+//currentClient.Send(testMessage)
+//
+//// https://azure.microsoft.com/en-us/documentation/articles/service-bus-queues-topics-subscriptions/
