@@ -26,6 +26,6 @@ The project [FSharp.DataProcessingPipelines.Core](/src/FSharp.DataProcessingPipe
 
 For more details about how to use / extend this see the [Wiki](../../wiki/). If you find any issues, please report in [Issues](../../issues/).
 
-This is a open source project from and for the community so feel free to contribute - just send your contact.
+This is a open source project from and for the community so feel free to contribute ( don't forget to send your contact) - **just pick a task [Trello Project](https://trello.com/b/JlE1RNwN/f-data-processing-pipeline)!**
 
 **Note**: The solution structure is based on the [prototypical .NET solution (file system layout and tooling), recommended by the F# Foundation.](https://github.com/fsprojects/ProjectScaffold/).
