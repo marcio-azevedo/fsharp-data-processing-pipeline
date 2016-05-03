@@ -10,9 +10,18 @@ open FSharp.DataProcessingPipelines.Core.Pipes
 open Microsoft.ServiceBus
 open Microsoft.ServiceBus.Messaging
 
+/// Documentation for AzureServiceBus Pipes
+///
+/// ## Example
+///
+///     let h = Library.hello 1
+///     printfn "%d" h
+///
 module AzureServiceBus = 
 
-    /// OutputPipe type implementation for RabbitMQ
+//http://fsprojects.github.io/FSharp.CloudAgent/tutorial.html
+
+    /// OutputPipe type implementation for Azure Service Bus
     type AzureServiceBusOutputPipe<'T when 'T : not struct> (serviceBus:TopicClient, topic:String) = 
 
         inherit IOutputPipe<'T> ()
@@ -29,7 +38,7 @@ module AzureServiceBus =
                     // log exception
                     reraise()
 
-    /// InputPipe type implementation for RabbitMQ
+    /// InputPipe type implementation for Azure Service Bus
     type AzureServiceBusInputPipe<'T when 'T : not struct> 
         (serviceBus:TopicClient, subscriberId:String, topic:String, locale:String) = 
 
