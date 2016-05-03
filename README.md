@@ -19,7 +19,7 @@ You can implement an External Integration with a typical Messaging Queue System 
 
 The project [FSharp.DataProcessingPipelines.Core](/src/FSharp.DataProcessingPipelines.Core/) provides the basic definition of the Core Entities like Messages, Pipes, Filters and Runners.
 
-[Currently supported integrations](/wiki/Supported-Integrations/)
+[Currently supported integrations](/wiki/2.-Supported-Integrations/)
 
 
 
