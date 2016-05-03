@@ -37,3 +37,4 @@ let ServiceBusConnectionString = "host=localhost" //TODO: set an existing Azure 
 //currentClient.Send(testMessage)
 //
 //// https://azure.microsoft.com/en-us/documentation/articles/service-bus-queues-topics-subscriptions/
+
