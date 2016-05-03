@@ -1,14 +1,14 @@
 ﻿namespace FSharp.DataProcessingPipelines.Infrastructure
 
-
-open System
-open System.Globalization
-open System.Threading
-open System.Runtime.Serialization
-open FSharp.DataProcessingPipelines.Core
-open FSharp.DataProcessingPipelines.Core.Pipes
-open Microsoft.ServiceBus
-open Microsoft.ServiceBus.Messaging
+//
+//open System
+//open System.Globalization
+//open System.Threading
+//open System.Runtime.Serialization
+//open FSharp.DataProcessingPipelines.Core
+//open FSharp.DataProcessingPipelines.Core.Pipes
+//open Microsoft.ServiceBus
+//open Microsoft.ServiceBus.Messaging
 
 /// Documentation for AzureServiceBus Pipes
 ///
