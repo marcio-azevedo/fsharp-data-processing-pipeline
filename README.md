@@ -22,6 +22,8 @@ The project [FSharp.DataProcessingPipelines.Core](/src/FSharp.DataProcessingPipe
 [Currently supported integrations](../../wiki/2.-Supported-Integrations/)
 
 
+For more details about how to use / extend this see the [Wiki](../../wiki/). If you find any issues, please report in [Issues](../../issues/).
 
+This is a open source project from and for the community so feel free to contribute - just send your contact.
 
 **Note**: The solution structure is based on the [prototypical .NET solution (file system layout and tooling), recommended by the F# Foundation.](https://github.com/fsprojects/ProjectScaffold/).
