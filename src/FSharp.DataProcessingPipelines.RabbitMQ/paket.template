@@ -1,25 +1,28 @@
 type project
 title
-    ##ProjectName##
+    FSharp.DataProcessingPipelines.RabbitMQ
 owners
     Márcio Azevedo
 authors 
     Márcio Azevedo
 projectUrl
-    http://github.com/marcio-azevedo/FSharp.DataProcessingPipelines
+    https://github.com/marcio-azevedo/fsharp-data-processing-pipeline
 iconUrl
-    https://raw.githubusercontent.com/marcio-azevedo/FSharp.DataProcessingPipelines/master/docs/files/img/logo.png
+    https://github.com/marcio-azevedo/fsharp-data-processing-pipeline/blob/master/docs/files/img/logo.png
 licenseUrl
-    http://github.com/marcio-azevedo/FSharp.DataProcessingPipelines/blob/master/LICENSE.txt
+    https://github.com/marcio-azevedo/fsharp-data-processing-pipeline/blob/master/LICENSE.txt
 requireLicenseAcceptance
     false
 copyright
     Copyright 2015
 tags
-    data processing pipeline pipelines pipes filters etl
+    data processing pipeline pipelines pipes filters etl rabbitmq easynetq bus queue fsharp f#
 summary
     Provides an extensible solution for creating Data Processing Pipelines in F#.
 description
     Provides an extensible solution for creating Data Processing Pipelines in F#.
-
-
+dependencies
+    FSharp.Core >= 4.3.1
+	FSharp.DataProcessingPipelines.Core
+	RabbitMQ.Client >= 3.6.1
+    EasyNetQ >= 0.57.2
