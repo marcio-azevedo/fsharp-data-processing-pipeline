@@ -1,7 +1,9 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/1skn6mpe3x91ipfs/branch/master?svg=true)](https://ci.appveyor.com/project/marcio-azevedo/fsharp-data-processing-pipeline/branch/master)
+[![NuGet Version](https://img.shields.io/nuget/v/FSharp.DataProcessingPipelines.Core.svg?style=flat)](https://www.nuget.org/packages/FSharp.DataProcessingPipelines.Core/)
+[![NuGet Version](https://img.shields.io/nuget/v/FSharp.DataProcessingPipelines.RabbitMQ.svg?style=flat)](https://www.nuget.org/packages/FSharp.DataProcessingPipelines.RabbitMQ/)
+
 # Build easily data processing pipelines in F# #
 Provides an extensible solution for creating Data Processing Pipelines in F#.
-
-[![Build status](https://ci.appveyor.com/api/projects/status/1skn6mpe3x91ipfs/branch/master?svg=true)](https://ci.appveyor.com/project/marcio-azevedo/fsharp-data-processing-pipeline/branch/master)
 
 ----------
 
@@ -17,15 +19,12 @@ You can implement an External Integration with a typical Messaging Queue System 
 
 ![](/docs/files/img/pipes-filters02.png)
 
-## Overview ##
-
 The project [FSharp.DataProcessingPipelines.Core](/src/FSharp.DataProcessingPipelines.Core/) provides the basic definition of the Core Entities like Messages, Pipes, Filters and Runners.
 
-[Currently supported integrations](../../wiki/2.-Supported-Integrations/)
-
+### [Currently supported integrations](../../wiki/2.-Supported-Integrations/) ###
 
 For more details about how to use / extend this see the [Wiki](../../wiki/). If you find any issues, please report in [Issues](../../issues/).
 
-This is a open source project from and for the community so feel free to contribute ( don't forget to send your contact) - **just pick a task [Trello Project](https://trello.com/b/JlE1RNwN/f-data-processing-pipeline)!**
+**This is a open source project from and for the community so feel free to contribute (don't forget to send your contact) - just pick a task in [Trello Project](https://trello.com/b/JlE1RNwN/f-data-processing-pipeline)!**
 
 **Note**: The solution structure is based on the [prototypical .NET solution (file system layout and tooling), recommended by the F# Foundation.](https://github.com/fsprojects/ProjectScaffold/).

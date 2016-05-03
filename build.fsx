@@ -28,7 +28,7 @@ open SourceLink
 
 // The name of the project
 // (used by attributes in AssemblyInfo, name of a NuGet package and directory in 'src')
-let project = "FSharp.DataProcessingPipelines"
+let project = "FSharp.DataProcessingPipelines.Core"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
@@ -42,7 +42,7 @@ let description = "Provides an extensible solution for creating Data Processing 
 let authors = [ "Márcio Azevedo" ]
 
 // Tags for your project (for NuGet package)
-let tags = "data processing pipeline pipelines pipes filters etl"
+let tags = "data processing pipeline pipelines pipes filters etl fsharp f#"
 
 // File system information
 let solutionFile  = "FSharp.DataProcessingPipelines.sln"
@@ -223,7 +223,8 @@ let buildDocumentationTarget fsiargs target =
     ()
 
 Target "GenerateReferenceDocs" (fun _ ->
-    buildDocumentationTarget "-d:RELEASE -d:REFERENCE" "Default"
+//    buildDocumentationTarget "-d:RELEASE -d:REFERENCE" "Default" //TODO: uncomment to gernerate ref docs
+      ()
 )
 
 let generateHelp' fail debug =
@@ -249,7 +250,7 @@ Target "GenerateHelp" (fun _ ->
     CopyFile "docs/content/" "LICENSE.txt"
     Rename "docs/content/license.md" "docs/content/LICENSE.txt"
 
-    generateHelp true
+//    generateHelp true // TODO: Uncomment to generate docs
 )
 
 Target "GenerateHelpDebug" (fun _ ->
@@ -261,12 +262,13 @@ Target "GenerateHelpDebug" (fun _ ->
     CopyFile "docs/content/" "LICENSE.txt"
     Rename "docs/content/license.md" "docs/content/LICENSE.txt"
 
-    generateHelp' true true
+//    generateHelp' true true // TODO: Uncomment to generate docs
 )
 
 Target "KeepRunning" (fun _ ->
     use watcher = !! "docs/content/**/*.*" |> WatchChanges (fun changes ->
-         generateHelp' true true
+//         generateHelp' true true // TODO: Uncomment to generate docs
+         ()
     )
 
     traceImportant "Waiting for help edits. Press any key to stop."
@@ -408,4 +410,31 @@ Target "All" DoNothing
   ==> "PublishNuget"
   ==> "Release"
 
-RunTargetOrDefault "Build" // "RunTests" //"All"
+RunTargetOrDefault "All" 
+
+//Shortened DependencyGraph for Target NuGet:
+//<== NuGet
+//   <== All
+//      <== GenerateDocs
+//         <== GenerateReferenceDocs
+//            <== RunTests
+//               <== CopyBinaries
+//                  <== Build
+//                     <== AssemblyInfo
+//                        <== Clean
+//            <== GenerateHelp
+//               <== CleanDocs
+
+//The resulting target order is:
+// - Clean
+// - AssemblyInfo
+// - Build
+// - CopyBinaries
+// - RunTests
+// - CleanDocs
+// - GenerateHelp
+// - GenerateReferenceDocs
+// - GenerateDocs
+// - All
+// - NuGet
+
