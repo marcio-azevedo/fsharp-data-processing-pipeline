@@ -2,6 +2,13 @@
 
 open System
 
+/// Documentation for Messages
+///
+/// ## Example
+///
+///     let h = Library.hello 1
+///     printfn "%d" h
+///
 module Messages = 
 
     type MessageType =

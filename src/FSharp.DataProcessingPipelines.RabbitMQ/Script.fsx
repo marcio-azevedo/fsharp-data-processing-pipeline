@@ -28,6 +28,7 @@ open FSharp.DataProcessingPipelines.Core.Filters
 open FSharp.DataProcessingPipelines.Core.Runners
 open FSharp.DataProcessingPipelines.Infrastructure.RabbitMQ
 
+// See ObservableCollection -> http://www.fssnip.net/dv
 type BaseMessage (id:int, events:(DateTime * String) list) = 
     member this.Id = id
     member this.Events = events

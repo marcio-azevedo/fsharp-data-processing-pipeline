@@ -20,4 +20,9 @@ module Runners =
 //                              .WriteTo.ColoredConsole()
 //                              .WriteTo.RollingFile(@"C:\Log-{Date}.txt")
 //                              .CreateLogger();
-
+//
+//    /// Returns 42
+//    ///
+//    /// ## Parameters
+//    ///  - `num` - whatever
+//    let hello num = 42

@@ -80,11 +80,6 @@
       <Project>{dd56d434-1724-4bd4-ac8f-9a8e705eb7c1}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\FSharp.DataProcessingPipelines\FSharp.DataProcessingPipelines.fsproj">
-      <Name>FSharp.DataProcessingPipelines</Name>
-      <Project>{2fca2463-4148-4da1-a047-7722dba5394e}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
