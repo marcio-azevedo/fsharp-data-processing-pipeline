@@ -11,7 +11,7 @@
 // (This is the original behaviour of ProjectScaffold prior to multi project support)
 let referenceBinaries = []
 // Web site location for the generated documentation
-let website = "/FSharp.DataProcessingPipelines"
+let website = "/"
 
 let githubLink = "http://github.com/marcio-azevedo/fsharp-data-processing-pipeline"
 
@@ -21,7 +21,7 @@ let info =
     "project-author", "Márcio Azevedo"
     "project-summary", "Provides an extensible solution for creating Data Processing Pipelines in F#."
     "project-github", githubLink
-    "project-nuget", "http://nuget.org/packages/FSharp.DataProcessingPipelines" ]
+    "project-nuget", "http://nuget.org/packages/FSharp.DataProcessingPipelines.Core" ]
 
 // --------------------------------------------------------------------------------------
 // For typical project, no changes are needed below
