@@ -1,6 +1,8 @@
 # Build easily data processing pipelines in F# #
 Provides an extensible solution for creating Data Processing Pipelines in F#.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/1skn6mpe3x91ipfs/branch/master?svg=true)](https://ci.appveyor.com/project/marcio-azevedo/fsharp-data-processing-pipeline/branch/master)
+
 ----------
 
 This solution offers the basic infrastructure to build data processing pipelines in F# (or C# due to it's interoperability with F#).
