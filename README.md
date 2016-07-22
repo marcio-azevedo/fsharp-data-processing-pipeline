@@ -2,7 +2,7 @@
 [![NuGet Version](https://img.shields.io/nuget/v/FSharp.DataProcessingPipelines.Core.svg?style=flat)](https://www.nuget.org/packages/FSharp.DataProcessingPipelines.Core/)
 [![NuGet Version](https://img.shields.io/nuget/v/FSharp.DataProcessingPipelines.RabbitMQ.svg?style=flat)](https://www.nuget.org/packages/FSharp.DataProcessingPipelines.RabbitMQ/)
 
-# Build easily data processing pipelines in F# #
+# Easily build data processing pipelines in F# #
 Provides an extensible solution for creating Data Processing Pipelines in F#.
 
 ----------
